@@ -1,0 +1,49 @@
+{
+  "name": "remind-us-api",
+  "version": "1.0.0",
+  "description": "An API for the project Remind Us",
+  "main": "bin/server.js",
+  "repository": "git@github.com:ariusxi/remind-us-api.git",
+  "author": "Alef Felix <alef.developerweb@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "local": "NODE_ENV=local nodemon bin/server.js",
+    "eslint": "eslint --fix src/"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn eslint",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
+    }
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "debug": "^4.2.0",
+    "env-cat": "^1.0.1",
+    "express": "^4.17.1",
+    "http": "^0.0.1-security",
+    "i18n-nodejs": "^3.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1",
+    "mongoose": "^5.10.9",
+    "morgan": "^1.10.0",
+    "request": "^2.88.2",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^9.0.1",
+    "@commitlint/config-conventional": "^9.0.1",
+    "commitizen": "^4.0.5",
+    "cz-conventional-changelog": "3.2.0",
+    "eslint": "^7.6.0",
+    "eslint-config-google": "^0.13.0",
+    "eslint-plugin-security": "^1.4.0",
+    "husky": "^4.3.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
