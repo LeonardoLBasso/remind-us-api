@@ -1,0 +1,57 @@
+{
+    "UNAUTHORIZED": {
+        "pt-BR": "Não autorizado",
+        "en-US": "Unauthorized",
+        "es-ES": "No autorizado"
+    },
+    "ABSTRACT_fail_register": {
+        "pt-BR": "Falha ao registrar novo dado",
+        "en-US": "Fail to register new data",
+        "es-ES": "Falla al registrar nuevos datos"
+    },
+    "ABSTRACT_empty_fields": {
+        "pt-BR": "Os campos não podem ficar vazios",
+        "en-US": "The fields cannot be empty",
+        "es-ES": "Los campos no pueden estar vacíos"
+    },
+    "ABSTRACT_id_empty": {
+        "pt-BR": "_id não pode ser vazio",
+        "en-US": "_id cannot be empty",
+        "es-ES": "_id no puede estar vacío"
+    },
+    "ABSTRACT_empty_fields_detect {{emptyFields}}": {
+        "pt-BR": "{{emptyFields}} não pode ser vazios",
+        "en-US": "{{emptyFields}} cannot be empty",
+        "es-ES": "{{emptyFields}} no puede estar vacío"
+	},
+	"CUSTOMFIELD_duplicated_name": {
+        "pt-BR": "Já existe um campo customizado com este nome",
+        "en-US": "Already exist a custom field with this name",
+		"es-ES": "Ya existe un campo personalizado con este nombre"
+	},
+	"CUSTOM_FIELD_not_exists": {
+		"pt-BR": "Campo customizado não encontrado",
+		"en-US": "Custom Field not found",
+		"es-ES": "Campo Personalizado no encontrado"
+	},
+	"ABSTRACT_nonexistent_array_position": {
+        "pt-BR": "Esta posição do array não existe",
+        "en-US": "This array position does not exist",
+        "es-ES": "Esta posición matricial no existe"
+	},
+	"AUTH_token_invalid": {
+        "pt-BR": "Token inválido",
+        "en-US": "Invalid token",
+        "es-ES": "Token no valido"
+	},
+	"AUTH_token_expired": {
+        "pt-BR": "Token expirado",
+        "en-US": "Expired token",
+        "es-ES": "Token caducado"
+	},
+	"AUTH_token_unavailable": {
+        "pt-BR": "Token indisponível para uso",
+        "en-US": "Token unavailable for use",
+        "es-ES": "Token no disponible para su uso"
+    }
+}
