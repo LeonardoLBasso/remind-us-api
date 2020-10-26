@@ -1,18 +1,19 @@
 'use strict'
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
-const LocaleService = require('../../translate/LocaleService');
-const AbstractHelper = require('../../helpers/AbstractHelper');
-const {safeKey} = require('../functions/safe-key');
+import LocaleService from '../../translate/LocaleService';
+import AbstractHelper from '../../helpers/AbstractHelper';
+import HandleError from './HandleError';
+import {safeKey} from '../functions/safe-key';
 
 /**
  * @export
  * @class HandleRequisition
  * @classdesc Classe responsável por métodos utilitários para os Schemas
  */
-module.exports = class HandleRequisition {
+export default class HandleRequisition {
 	/**
 	 * Creates an instance of HandleRequisition.
 	 * @param {String} entity
@@ -183,10 +184,7 @@ module.exports = class HandleRequisition {
 	 * @memberof AbstractResolver
 	 */
 	successHandler(success) {
-		return {
-			statusCode: 200,
-			body: JSON.stringify(success),
-		}
+		return success
 	}
 
 	/**
@@ -195,14 +193,13 @@ module.exports = class HandleRequisition {
 	 * @return {object}
 	 */
 	errorHandler(error) {
-		const code = error.message.match(/\[(\d+)\]/)
-		const msg = error.message.match(/[a-z ]/gi).join('').trim()
-		return ({
-			statusCode: code ? code[1] : 500,
-			body: JSON.stringify({
-				code: code ? code[1] : 500,
-				mensage: msg ? msg : 'Bad request',
-			}),
-		})
+		const handleError = new HandleError(error)
+		if (error instanceof Array) {
+			throw new Error(handleError.handle())
+		} else if (error) {
+			throw new Error(handleError.handle())
+		} else if (!error) {
+			throw new Error(handleError.handle())
+		}
 	}
 }

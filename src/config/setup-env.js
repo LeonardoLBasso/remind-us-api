@@ -1,7 +1,7 @@
 'use strict'
 
-const env = require('env-cat');
+import env from 'env-cat';
 
-module.exports = (envName = env.get('NODE_ENV').replace(/ /g, '')) => {
+export default (envName = env.get('NODE_ENV').replace(/ /g, '')) => {
 	env.initEnv(envName);
 };

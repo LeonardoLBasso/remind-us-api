@@ -1,6 +1,6 @@
 'use strict'
 
-const {safeKey} = require('./safe-key');
+import {safeKey} from './safe-key';
 
 const getControllerData = (entityCall) => {
 	const entityCallArray = entityCall.split('@');
@@ -13,11 +13,11 @@ const getControllerData = (entityCall) => {
 	});
 };
 
-exports.Controller = (entityCall) => async (req, res) => {
+export const Controller = (entityCall) => async (req, res) => {
 	try {
 		const {controllerName, controllerMethod} = getControllerData(entityCall);
 		const currentController = require(`../../controllers/${controllerName}Controller`);
-		const controllerResult = await currentController[safeKey(controllerMethod)](req, req);
+		const controllerResult = await currentController.default[safeKey(controllerMethod)](req, req);
 
 		res.status(200).send({
 			success: true,
@@ -26,11 +26,12 @@ exports.Controller = (entityCall) => async (req, res) => {
 	} catch (err) {
 		res.status(500).send({
 			success: false,
-			message: err,
+			message: err.message,
 		});
 	}
 };
 
-exports.Model = (entity) => {
-	return require(`../../models/${entity}`);
+export const Model = (entity) => {
+	const currentModel = require(`../../models/${entity}`);
+	return currentModel;
 }

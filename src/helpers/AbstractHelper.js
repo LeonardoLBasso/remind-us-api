@@ -1,8 +1,8 @@
 'use strict'
 
-const env = require('env-cat')
+import env from 'env-cat';
 
-const IndexHelper = require('./IndexHelper')
+import IndexHelper from './IndexHelper';
 
 /**
  * @class AbstractHelper
@@ -55,4 +55,4 @@ class AbstractHelper extends IndexHelper {
 	}
 }
 
-module.exports = new AbstractHelper()
+export default new AbstractHelper();

@@ -1,17 +1,17 @@
 'use strict'
 
-const {createWriteStream} = require('fs')
-const request = require('request')
-const moment = require('moment')
-const env = require('env-cat')
+import {createWriteStream} from 'fs';
+import request from 'request';
+import moment from 'moment';
+import env from 'env-cat';
 
-const {safeKey} = require('../utils/functions/safe-key')
+import {safeKey} from '../utils/functions/safe-key';
 
 /**
  * @class IndexHelper
  * @classdesc Classe responsável pela criação de métodos helper
  */
-module.exports = class IndexHelper {
+export default class IndexHelper {
 	/**
 	 * @param {String} text
 	 * @return {String}

@@ -1,5 +1,5 @@
 'use strict'
 
-const logger = require('morgan');
+import logger from 'morgan';
 
-module.exports = logger('dev');
+export default logger('dev');

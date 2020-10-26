@@ -1,13 +1,13 @@
 'use strict'
 
-const {safeKey} = require('../functions/safe-key');
+import {safeKey} from '../functions/safe-key';
 
 /**
  * @export
  * @class HandleError
  * @classdesc Classe responsável pelo tratamento de retorno de erros
  */
-module.exports = class HandleError {
+export default class HandleError {
 	/**
 	 * Creates an instance of HandleError.
 	 * @param {object} error

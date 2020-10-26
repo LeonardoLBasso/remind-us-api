@@ -1,9 +1,9 @@
 'use strict'
 
-const env = require('env-cat');
-const bodyParser = require('body-parser');
+import env from 'env-cat';
+import bodyParser from 'body-parser';
 
-module.exports = () => {
+export default () => {
 	return bodyParser.urlencoded({
 		limit: env.get('BODYPARSER_LIMIT'),
 		extended: env.get('BODYPARSER_EXTEND'),
