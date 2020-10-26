@@ -1,11 +1,11 @@
 'use strict'
 
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+import env from 'env-cat';
 
-const env = require('env-cat');
-const logger = require('../core/logger');
+import logger from '../core/logger';
 
-exports.connection = async () => {
+export const connection = async () => {
 	// Connect mongo database
 	mongoose.Promise = global.Promise
 	if (mongoose.connection.readyState !== 0) {

@@ -1,8 +1,8 @@
 'use strict'
 
-const env = require('env-cat');
-const bodyParser = require('body-parser');
+import env from 'env-cat';
+import bodyParser from 'body-parser';
 
-module.exports = bodyParser.json({
+export default bodyParser.json({
 	limit: env.get('JSONPARSER_LIMIT'),
 });

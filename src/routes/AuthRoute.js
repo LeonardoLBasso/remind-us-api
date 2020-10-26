@@ -1,10 +1,10 @@
 'use strict'
 
-const {Router} = require('express');
-const {Controller} = require('../utils/functions/require');
+import {Router} from 'express';
+import {Controller} from '../utils/functions/require';
 
-const router = Router();
+const authRouter = Router();
 
-router.get('/login', Controller('Auth@login'));
+authRouter.post('/signin', Controller('Auth@signin'));
 
-module.exports = router;
+export const router = authRouter;
