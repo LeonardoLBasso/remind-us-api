@@ -190,7 +190,6 @@ export default class HandleRequisition {
 	/**
 	 * @param {Object} error
 	 * @memberof AbstractResolver
-	 * @return {object}
 	 */
 	errorHandler(error) {
 		const handleError = new HandleError(error)
