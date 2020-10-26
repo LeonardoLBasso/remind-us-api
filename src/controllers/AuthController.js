@@ -1,7 +1,7 @@
 'use strict'
 
 import env from 'env-cat';
-import {genSaltSync, hashSync} from 'bcrypt';
+import {genSaltSync, hashSync, compare} from 'bcrypt';
 
 import {Model} from './../utils/functions/require';
 import AuthService from './../services/auth-service';
@@ -19,6 +19,59 @@ class AuthController extends AbstractController {
      */
 	constructor() {
 		super('User');
+	}
+
+	/**
+	 * @param {Object} req
+	 * @param {Object} res
+	 * @return {Object}
+	 * @description Método para efetuar o login de usuário
+	 * @memberof AuthController
+	 */
+	login(req, res) {
+		const data = req.body;
+		const promissor = {
+			validateExists: async () => {
+				const {email} = data;
+				const isUserExists = await Model('User').findOne({
+					email,
+				});
+				// Verificando se o usuário existe na base de dados
+				if (!isUserExists) {
+					return Promise.reject('Usuário não encontrado');
+				}
+				return Promise.resolve(isUserExists)
+			},
+			validatePassword: async (user) => {
+				const {password} = data;
+				// Validando se a senha enviada é compatível à do usuário
+				const isValidPassword = await compare(password, user.password);
+				if (!isValidPassword) {
+					return Promise.reject('E-mail ou Senha incorretos');
+				}
+				return Promise.resolve(user);
+			},
+			generateSessionToken: async (userCreated) => {
+				// Gerando token de usuário
+				const userToken = await AuthService.generateTokenObject({
+					_id: userCreated._id,
+					email: userCreated.email,
+					name: userCreated.name,
+				});
+
+				return Promise.resolve({
+					user: userCreated,
+					token: userToken,
+				});
+			},
+		}
+
+		return this.validateData(req.body, req.headers)
+			.then(promissor.validateExists)
+			.then(promissor.validatePassword)
+			.then(promissor.generateSessionToken)
+			.then(this.successHandler)
+			.catch(this.errorHandler);
 	}
 
 	/**
@@ -70,7 +123,6 @@ class AuthController extends AbstractController {
 				});
 
 				return Promise.resolve({
-					success: true,
 					user: userCreated,
 					token: userToken,
 				});
