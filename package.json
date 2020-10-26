@@ -8,6 +8,7 @@
   "license": "MIT",
   "scripts": {
     "local": "NODE_ENV=local nodemon --exec babel-node bin/server.js",
+    "start": "NODE_ENV=production babel-node bin/server.js",
     "eslint": "eslint --fix src/"
   },
   "husky": {
