@@ -1,9 +1,9 @@
 'use strict'
 
 import env from 'env-cat';
-import { genSaltSync, hashSync } from 'bcrypt';
+import {genSaltSync, hashSync} from 'bcrypt';
 
-import { Model } from './../utils/functions/require';
+import {Model} from './../utils/functions/require';
 import AuthService from './../services/auth-service';
 import AbstractController from './AbstractController';
 
@@ -24,6 +24,7 @@ class AuthController extends AbstractController {
 	/**
 	 * @param {Object} req
 	 * @param {Object} res
+	 * @return {Object}
 	 * @description Método para efetuar cadastros de usuário
 	 * @memberof AuthController
 	 */
@@ -31,9 +32,9 @@ class AuthController extends AbstractController {
 		const data = req.body;
 		const promissor = {
 			validateExists: async () => {
-				const { email } = data;
+				const {email} = data;
 				const isUserExists = await Model('User').findOne({
-					email
+					email,
 				});
 				if (isUserExists) {
 					return Promise.reject('Já existe um usuário cadastrado com esse e-mail');
@@ -42,7 +43,7 @@ class AuthController extends AbstractController {
 			},
 			encryptPassword: async () => {
 				// Pegando a senha e o salt rounds
-				const { password } = data;
+				const {password} = data;
 				const saltRounds = parseInt(env.get('SALT_ROUNDS'));
 				const salt = genSaltSync(saltRounds);
 
@@ -73,7 +74,7 @@ class AuthController extends AbstractController {
 					user: userCreated,
 					token: userToken,
 				});
-			}
+			},
 		}
 
 		return this.validateData(req.body, req.headers)
