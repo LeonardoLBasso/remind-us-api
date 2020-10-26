@@ -1,18 +1,18 @@
 'use strict'
 
-const {Model} = require('../utils/functions/require')
-const helper = require('../helpers/AbstractHelper')
+import {Model} from '../utils/functions/require';
+import helper from '../helpers/AbstractHelper';
 
-const LocaleService = require('../translate/LocaleService');
+import LocaleService from '../translate/LocaleService';
 
-const HandleRequisition = require('../utils/classes/HandleRequisition');
+import HandleRequisition from '../utils/classes/HandleRequisition';
 
 /**
  * @class AbstractResolver
  * @classdesc Classe responsável por métodos abstratos de CRUD
  * @export
  */
-module.exports = class AbstractResolver extends HandleRequisition {
+export default class AbstractResolver extends HandleRequisition {
 	/**
 	 * Creates an instance of AbstractResolver.
 	 * @param {string} entity

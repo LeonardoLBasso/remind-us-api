@@ -1,11 +1,11 @@
 'use strict'
 
-const express = require('express');
+import express from 'express';
 
-const {connection} = require('./db/connection');
-const setupEnv = require('./config/setup-env');
-const setupApp = require('./config/setup-app');
-const setupRoute = require('./config/setup-route');
+import {connection} from './db/connection';
+import setupEnv from './config/setup-env';
+import setupApp from './config/setup-app';
+import setupRoute from './config/setup-route';
 
 const app = express();
 
@@ -16,4 +16,4 @@ setupRoute(app);
 // Connect in mongo database
 connection();
 
-module.exports = app;
+export default app;

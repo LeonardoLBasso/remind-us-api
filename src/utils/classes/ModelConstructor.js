@@ -2,7 +2,6 @@
 
 const {Schema, model} = require('mongoose');
 const Paginate = require('mongoose-paginate-v2');
-const SoftDelete = require('mongoose-softdelete');
 const AutoPopulate = require('mongoose-autopopulate');
 
 const {timezone} = require('../functions/timezone');
@@ -18,9 +17,18 @@ module.exports = class ModelConstructor {
 	 * @memberof ModelConstructor
 	 */
 	constructor(entityName, props) {
-		this.entityName = entityName
-		this.props = props
-		this.customPlugins = []
+		this.entityName = entityName;
+		this.customPlugins = [];
+		this.customOperators = [];
+		this.props = {
+			...props,
+			createdAt: {
+				type: Date,
+			},
+			updatedAt: {
+				type: Date,
+			},
+		};
 	}
 
 	/**
@@ -59,7 +67,6 @@ module.exports = class ModelConstructor {
 	 * @memberof ModelConstructor
 	 */
 	plugins(schema) {
-		schema.plugin(SoftDelete)
 		schema.plugin(Paginate)
 		schema.plugin(AutoPopulate)
 
