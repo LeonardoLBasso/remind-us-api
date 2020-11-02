@@ -192,6 +192,7 @@ export default class HandleRequisition {
 	 * @memberof AbstractResolver
 	 */
 	errorHandler(error) {
+		console.log(error)
 		const handleError = new HandleError(error)
 		if (error instanceof Array) {
 			throw new Error(handleError.handle())

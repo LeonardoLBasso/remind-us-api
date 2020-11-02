@@ -20,4 +20,4 @@ const userSchema = new ModelConstructor('User', {
 	},
 });
 
-module.exports = userSchema.init();
+export default userSchema.init();

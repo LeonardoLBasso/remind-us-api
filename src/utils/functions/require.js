@@ -24,6 +24,7 @@ export const Controller = (entityCall) => async (req, res) => {
 			data: controllerResult,
 		});
 	} catch (err) {
+		console.log(err)
 		res.status(500).send({
 			success: false,
 			message: err.message,
@@ -33,5 +34,5 @@ export const Controller = (entityCall) => async (req, res) => {
 
 export const Model = (entity) => {
 	const currentModel = require(`../../models/${entity}`);
-	return currentModel;
+	return currentModel.default;
 }
