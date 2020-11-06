@@ -1,16 +1,17 @@
 'use strict'
 
-const {Schema, model} = require('mongoose');
-const Paginate = require('mongoose-paginate-v2');
-const AutoPopulate = require('mongoose-autopopulate');
+import {Schema, model} from 'mongoose';
+import Paginate from 'mongoose-paginate-v2';
+import AutoPopulate from 'mongoose-autopopulate';
+import SoftDelete from 'mongoose-delete';
 
-const {timezone} = require('../functions/timezone');
+import {timezone} from '../functions/timezone';
 
 /**
  * @export
  * @class ModelConstructor
  */
-module.exports = class ModelConstructor {
+export default class ModelConstructor {
 	/**
 	 * @param {String} entityName
 	 * @param {Object} props
@@ -67,8 +68,9 @@ module.exports = class ModelConstructor {
 	 * @memberof ModelConstructor
 	 */
 	plugins(schema) {
-		schema.plugin(Paginate)
-		schema.plugin(AutoPopulate)
+		schema.plugin(Paginate);
+		schema.plugin(AutoPopulate);
+		schema.plugin(SoftDelete, {deletedAt: true});
 
 		// Carregando plugins importados pelo próprio usuário
 		this.loadCustomPlugins()

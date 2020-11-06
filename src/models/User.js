@@ -1,6 +1,6 @@
 'use strict'
 
-const ModelConstructor = require('../utils/classes/ModelConstructor');
+import ModelConstructor from '../utils/classes/ModelConstructor';
 
 const userSchema = new ModelConstructor('User', {
 	email: {
@@ -20,4 +20,4 @@ const userSchema = new ModelConstructor('User', {
 	},
 });
 
-module.exports = userSchema.init();
+export default userSchema.init();
