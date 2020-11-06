@@ -28,9 +28,13 @@ export default class AbstractResolver extends HandleRequisition {
 	 * @return {object}
 	 */
 	add(req, res) {
+		const {data, user} = req.body
 		const promissor = {
 			store: async () => {
-				return await Model(this.entity).create(args.data)
+				return await Model(this.entity).create({
+					...data,
+					user,
+				})
 			},
 			find: async (newRegister) => {
 				return await Model(this.entity).findById(newRegister._id)
@@ -51,11 +55,14 @@ export default class AbstractResolver extends HandleRequisition {
 	 * @return {object}
 	 */
 	addMany(req, res) {
-		const {data} = args
+		const {data, user} = req.body
 		const promissor = {
 			register: async () => {
 				data.map(async (currentRegister) => {
-					await Model(this.entity).create(currentRegister, (err) => {
+					await Model(this.entity).create({
+						...currentRegister,
+						user,
+					}, (err) => {
 						if (err) {
 							return Promise.reject(LocaleService.translate('ABSTRACT_fail_register', context.language))
 						}
@@ -77,10 +84,14 @@ export default class AbstractResolver extends HandleRequisition {
 	 * @return {object}
 	 */
 	update(req, res) {
-		const {_id, data} = args
+		const {id} = req.params
+		const {data, user} = req.body
 		const promissor = {
 			update: async () => {
-				return await Model(this.entity).findByIdAndUpdate(_id, data, {
+				return await Model(this.entity).findByIdAndUpdate(id, {
+					...data,
+					user,
+				}, {
 					new: true,
 				})
 			},
@@ -99,7 +110,7 @@ export default class AbstractResolver extends HandleRequisition {
 	 * @return {object}
 	 */
 	updateWhere(req, res) {
-		const {where, data} = args
+		const {where, data} = req.body
 		const promissor = {
 			prepareConditions: async () => {
 				return helper.groupFieldsAndConvertObject(where)
@@ -124,33 +135,19 @@ export default class AbstractResolver extends HandleRequisition {
 	 * @return {object}
 	 */
 	remove(req, res) {
-		const {_id} = args
+		const {id} = req.params
 		const promissor = {
 			find: async () => {
-				const register = await Model(this.entity).findById(_id)
-				if (this.hasQueue) {
-					await Queue.add(this.entity, {
-						company: register.company,
-					})
-				}
-				return register
-			},
-			updateParameter: async (data) => {
-				if (['Task', 'Annotation'].includes(this.entity)) {
-					this.isUserDeleted = true
-					await data.save()
-				}
-				return Promise.resolve(data)
+				return await Model(this.entity).findById(id)
 			},
 			delete: async (data) => {
-				await data.softdelete()
+				await data.delete()
 				return true
 			},
 		}
 
 		return this.validateData(req.body, req.headers)
 			.then(promissor.find)
-			.then(promissor.updateParameter)
 			.then(promissor.delete)
 			.then(this.successHandler)
 			.catch(this.errorHandler)
@@ -162,7 +159,7 @@ export default class AbstractResolver extends HandleRequisition {
 	 * @return {object}
 	 */
 	removeWhere(req, res) {
-		const {where} = args
+		const {where} = req.body
 		const promissor = {
 			prepareConditions: async () => {
 				return helper.groupFieldsAndConvertObject(where)
@@ -172,7 +169,7 @@ export default class AbstractResolver extends HandleRequisition {
 			},
 			delete: async (data) => {
 				data.map(async (register) => {
-					register.softdelete()
+					register.delete()
 				})
 				return Promise.resolve(true)
 			},
@@ -192,26 +189,13 @@ export default class AbstractResolver extends HandleRequisition {
 	 * @return {object}
 	 */
 	restore(req, res) {
-		const {_id} = args
+		const {id} = req.body
 		const promissor = {
 			find: async () => {
-				const register = await Model(this.entity).findOne({
-					_id,
+				return await Model(this.entity).findOne({
+					id,
 					deleted: true,
 				})
-				if (this.hasQueue) {
-					await Queue.add(this.entity, {
-						company: register.company,
-					})
-				}
-				return Promise.resolve(register)
-			},
-			updateParameter: async (data) => {
-				if (['Task', 'Annotation'].includes(this.entity)) {
-					this.isUserDeleted = true
-					await data.save()
-				}
-				return Promise.resolve(data)
 			},
 			restore: async (data) => {
 				await data.restore()
@@ -221,7 +205,6 @@ export default class AbstractResolver extends HandleRequisition {
 
 		return this.validateData(req.body, req.headers)
 			.then(promissor.find)
-			.then(promissor.updateParameter)
 			.then(promissor.restore)
 			.then(this.successHandler)
 			.catch(this.errorHandler)
@@ -233,11 +216,11 @@ export default class AbstractResolver extends HandleRequisition {
 	 * @return {object}
 	 */
 	get(req, res) {
-		const {_id, withTrashed} = args
+		const {id, withTrashed} = req.body
 		const promissor = {
 			get: async () => {
 				return await Model(this.entity).findOne({
-					_id: _id,
+					id,
 					deleted: withTrashed ? withTrashed : false,
 				})
 			},
@@ -255,7 +238,7 @@ export default class AbstractResolver extends HandleRequisition {
 	 * @return {object}
 	 */
 	getBy(req, res) {
-		const {data} = args
+		const {data} = req.body
 		const promissor = {
 			prepareConditions: async () => {
 				return helper.groupFieldsAndConvertObject(data)
@@ -278,7 +261,7 @@ export default class AbstractResolver extends HandleRequisition {
 	 * @return {object}
 	 */
 	getAllBy(req, res) {
-		const {data, withTrashed, page, limit, orderBy} = args
+		const {data, withTrashed, page, limit, orderBy} = req.body
 		const promissor = {
 			prepareParameters: async () => {
 				const parameters = {
@@ -314,7 +297,7 @@ export default class AbstractResolver extends HandleRequisition {
 	 * @return {object}
 	 */
 	getAll(req, res) {
-		const {page, limit, orderBy, withTrashed} = args
+		const {page, limit, orderBy, withTrashed} = req.body
 		const promissor = {
 			prepareParameters: async () => {
 				const parameters = {
@@ -345,7 +328,7 @@ export default class AbstractResolver extends HandleRequisition {
 	 * @return {object}
 	 */
 	getAllList(req, res) {
-		const {limit, orderBy} = args
+		const {limit, orderBy} = req.body
 		const promissor = {
 			findTotal: async () => {
 				return await Model(this.entity).countDocuments()
@@ -377,7 +360,7 @@ export default class AbstractResolver extends HandleRequisition {
 	 * @return {object}
 	 */
 	getByCompany(req, res) {
-		const {company} = args
+		const {company} = req.body
 		const promissor = {
 			find: async () => {
 				return await Model(this.entity).findOne({company})
@@ -396,7 +379,7 @@ export default class AbstractResolver extends HandleRequisition {
 	 * @return {object}
 	 */
 	getAllByCompany(req, res) {
-		const {data, company, page, limit, orderBy, withTrashed} = args
+		const {data, company, page, limit, orderBy, withTrashed} = req.body
 		const promissor = {
 			prepareParameters: async () => {
 				const parameters = {
@@ -435,7 +418,7 @@ export default class AbstractResolver extends HandleRequisition {
 	 * @return {object}
 	 */
 	getAllByCompanyList(req, res) {
-		const {company, withTrashed, orderBy} = args
+		const {company, withTrashed, orderBy} = req.body
 		const promissor = {
 			getAllByCompany: async () => {
 				return await Model(this.entity).find({

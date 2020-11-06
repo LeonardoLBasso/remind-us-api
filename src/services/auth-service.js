@@ -27,15 +27,22 @@ exports.validateToken = async (token) => {
 	})
 }
 
-exports.authorize = async (token) => {
-	let response = null;
-	if (token) {
-		await jwt.verify(token, env.get('SALT_KEY'), (error, decoded) => {
-			if (!error) {
-				response = decoded;
-			}
-		})
-	}
+exports.authorize = async (req, res, next) => {
+	const token = req.body.token || req.query.token || req.headers['x-access-token'];
 
-	return response;
+	if (!token) {
+		res.status(401).json({
+			message: 'Acesso Restrito',
+		});
+	} else {
+		jwt.verify(token, env.get('SALT_KEY'), (error, decoded) => {
+			if (error) {
+				res.status(401).json({
+					message: 'Token Inválido',
+				});
+			} else {
+				next();
+			}
+		});
+	}
 }
