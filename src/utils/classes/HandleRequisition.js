@@ -125,7 +125,9 @@ export default class HandleRequisition {
 	 * @memberof AbstractResolver
 	 */
 	validateData(args, context = null, exceptionFields = []) {
-		const emptyFields = this.getAllEmptyFields(args, exceptionFields)
+		const emptyFields = this.getAllEmptyFields(args, [...exceptionFields, ...[{
+			fieldName: 'user',
+		}]])
 		const errorMessage = emptyFields.join(', ')
 		if (emptyFields.length > 0) {
 			throw new Error(
