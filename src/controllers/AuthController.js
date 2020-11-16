@@ -146,7 +146,7 @@ class AuthController extends AbstractController {
 	 * @memberof AuthController
 	 */
 	updateProfile(req, res) {
-		const {data: {name, email}, user} = req.body;
+		const {name, email, user} = req.body;
 		const promissor = {
 			validateExists: async () => {
 				const userExists = await Model('User').exists({
@@ -182,7 +182,7 @@ class AuthController extends AbstractController {
 	 * @memberof AuthController
 	 */
 	updatePassword(req, res) {
-		const {data, user} = req.body;
+		const {password, user} = req.body;
 		const promissor = {
 			validateExists: async () => {
 				const userExists = await Model('User').exists({
@@ -195,7 +195,6 @@ class AuthController extends AbstractController {
 			},
 			encryptPassword: async () => {
 				// Pegando a senha e o salt rounds
-				const {password} = data;
 				const saltRounds = parseInt(env.get('SALT_ROUNDS'));
 				const salt = genSaltSync(saltRounds);
 
