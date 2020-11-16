@@ -10,6 +10,7 @@ const categoryRouter = Router();
 categoryRouter.post('/create', authorize, Controller('Category@add'));
 categoryRouter.put('/update/:id', authorize, Controller('Category@update'));
 categoryRouter.get('/get/:id', authorize, Controller('Category@get'));
+categoryRouter.get('/get-all', authorize, Controller('Category@getAllByUser'));
 categoryRouter.delete('/remove/:id', authorize, Controller('Category@remove'));
 
 export const router = categoryRouter;

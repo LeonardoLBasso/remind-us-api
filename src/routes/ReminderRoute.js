@@ -10,6 +10,8 @@ const reminderRouter = Router();
 reminderRouter.post('/create', authorize, Controller('Reminder@add'));
 reminderRouter.put('/update/:id', authorize, Controller('Reminder@update'));
 reminderRouter.get('/get/:id', authorize, Controller('Reminder@get'));
+reminderRouter.get('/get-all', authorize, Controller('Reminder@getAllByUser'));
+reminderRouter.get('/get-all-list/:user/:period', authorize, Controller('Reminder@getAllRemindersOfTheDay'));
 reminderRouter.delete('/remove/:id', authorize, Controller('Reminder@remove'));
 
 export const router = reminderRouter;
