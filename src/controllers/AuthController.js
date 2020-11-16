@@ -137,6 +137,87 @@ class AuthController extends AbstractController {
 			.then(this.successHandler)
 			.catch(this.errorHandler);
 	}
+
+	/**
+	 * @param {Object} req
+	 * @param {Object} res
+	 * @return {Object}
+	 * @description Método para efetuar atualização do perfil de usuário
+	 * @memberof AuthController
+	 */
+	updateProfile(req, res) {
+		const {data: {name, email}, user} = req.body;
+		const promissor = {
+			validateExists: async () => {
+				const userExists = await Model('User').exists({
+					_id: user,
+				});
+				if (!userExists) {
+					return Promise.reject('Usuário não encontrado');
+				}
+				return Promise.resolve()
+			},
+			findAndUpdate: async () => {
+				return await Model('User').findByIdAndUpdate(user, {
+					name,
+					email,
+				}, {new: true});
+			},
+		}
+
+		return this.validateData(req.body, req.headers, [{
+			fieldName: 'photo',
+		}])
+			.then(promissor.validateExists)
+			.then(promissor.findAndUpdate)
+			.then(this.successHandler)
+			.catch(this.errorHandler);
+	}
+
+	/**
+	 * @param {Object} req
+	 * @param {Object} res
+	 * @return {Object}
+	 * @description Método para efetuar atualização da senha usuário
+	 * @memberof AuthController
+	 */
+	updatePassword(req, res) {
+		const {data, user} = req.body;
+		const promissor = {
+			validateExists: async () => {
+				const userExists = await Model('User').exists({
+					_id: user,
+				});
+				if (!userExists) {
+					return Promise.reject('Usuário não encontrado');
+				}
+				return Promise.resolve()
+			},
+			encryptPassword: async () => {
+				// Pegando a senha e o salt rounds
+				const {password} = data;
+				const saltRounds = parseInt(env.get('SALT_ROUNDS'));
+				const salt = genSaltSync(saltRounds);
+
+				// Gerando senha criptografada
+				const encryptedPassword = hashSync(password, salt);
+
+				return Promise.resolve(encryptedPassword);
+			},
+			updatePassword: async (encryptedPassword) => {
+				return await Model('User').findByIdAndUpdate(user, {
+					password: encryptedPassword,
+				}, {new: true});
+			},
+		}
+
+		return this.validateData(req.body, req.headers)
+			.then(promissor.validateExists)
+			.then(promissor.encryptPassword)
+			.then(promissor.updatePassword)
+			.then(this.successHandler)
+			.catch(this.errorHandler);
+	}
 }
 
 export default new AuthController();
