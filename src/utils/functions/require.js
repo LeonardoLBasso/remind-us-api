@@ -39,6 +39,8 @@ export const Controller = (entityCall) => async (req, res) => {
 			data: controllerResult,
 		});
 	} catch (err) {
+		console.log(err)
+
 		res.status(500).send({
 			success: false,
 			message: err.message,

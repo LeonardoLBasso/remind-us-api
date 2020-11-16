@@ -175,7 +175,7 @@ export default class HandleRequisition {
 		event = event.queryStringParameters ? event.queryStringParameters : {}
 		return {
 			page: event.page ? event.page : 1,
-			limit: abstractHelper.limitFormatter(event.limit),
+			limit: AbstractHelper.limitFormatter(event.limit),
 			sort: event.orderBy ? event.orderBy : '',
 		}
 	}
@@ -194,6 +194,7 @@ export default class HandleRequisition {
 	 * @memberof AbstractResolver
 	 */
 	errorHandler(error) {
+		console.log(error)
 		const handleError = new HandleError(error)
 		if (error instanceof Array) {
 			throw new Error(handleError.handle())
