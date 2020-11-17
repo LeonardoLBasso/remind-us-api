@@ -14,7 +14,6 @@ const categorySchema = new ModelConstructor('Category', {
 	user: {
 		type: Schema.Types.ObjectId,
 		ref: 'User',
-		autopopulate: true,
 	},
 });
 

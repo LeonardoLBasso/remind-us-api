@@ -1,6 +1,7 @@
 'use strict'
 
 import AbstractController from './AbstractController';
+import {Model} from '../utils/functions/require';
 
 /**
  * @class CategoryController
@@ -13,7 +14,9 @@ class CategoryController extends AbstractController {
      * @memberof CategoryController
      */
 	constructor() {
-		super('Category');
+		super('Category', [{
+			fieldName: 'description',
+		}]);
 	}
 
 	/**
@@ -24,10 +27,12 @@ class CategoryController extends AbstractController {
 	 * @memberof CategoryController
 	 */
 	getAllByUser(req, res) {
-		const user = req.params.user;
+		const {user} = req.body;
 		const promissor = {
 			find: async (parameters) => {
-				return await Model('Category').paginate({user}, parameters)
+				return await Model('Category').paginate({
+					user,
+				}, parameters)
 			},
 		}
 
