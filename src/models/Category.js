@@ -8,6 +8,10 @@ const categorySchema = new ModelConstructor('Category', {
 		type: String,
 		required: true,
 	},
+	color: {
+		type: String,
+		default: '#000000',
+	},
 	description: {
 		type: String,
 	},
