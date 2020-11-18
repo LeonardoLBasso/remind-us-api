@@ -33,7 +33,6 @@ export default class AbstractResolver extends HandleRequisition {
 		const {data, user} = req.body
 		const promissor = {
 			store: async () => {
-				console.log(user)
 				return await Model(this.entity).create({
 					...data,
 					user,
