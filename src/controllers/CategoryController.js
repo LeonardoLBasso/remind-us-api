@@ -32,6 +32,7 @@ class CategoryController extends AbstractController {
 			find: async (parameters) => {
 				return await Model('Category').paginate({
 					user,
+					deleted: false,
 				}, parameters)
 			},
 		}
