@@ -73,6 +73,31 @@ class ReminderController extends AbstractController {
 			.then(this.successHandler)
 			.catch(this.errorHandler);
 	}
+
+	/**
+	 * @param {Object} req
+	 * @param {Object} res
+	 * @return {Object}
+	 * @description Método para buscar todos os lembretes com o id de usuário
+	 * @memberof CategoryController
+	 */
+	getAllByUserList(req, res) {
+		const {user} = req.body;
+		const promissor = {
+			find: async (parameters) => {
+				return await Model('Reminder').find({
+					user,
+					deleted: false,
+				}, parameters)
+			},
+		}
+
+		return this.validateData(req.body, req.headers)
+			.then(this.prepareParameters)
+			.then(promissor.find)
+			.then(this.successHandler)
+			.catch(this.errorHandler);
+	}
 }
 
 export default new ReminderController();
