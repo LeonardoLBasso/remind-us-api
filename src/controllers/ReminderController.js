@@ -29,7 +29,10 @@ class ReminderController extends AbstractController {
 		const user = req.params.user;
 		const promissor = {
 			find: async (parameters) => {
-				return await Model('Reminder').paginate({user}, parameters)
+				return await Model('Reminder').paginate({
+					user,
+					deleted: false,
+				}, parameters)
 			},
 		}
 
@@ -58,6 +61,7 @@ class ReminderController extends AbstractController {
 			find: async (periodFilter) => {
 				return await Model('Reminder').find({
 					...periodFilter,
+					deleted: false,
 					user,
 				})
 			},
