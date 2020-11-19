@@ -182,7 +182,7 @@ class AuthController extends AbstractController {
 	 * @memberof AuthController
 	 */
 	updateProfilePhoto(req, res) {
-		const { photo } = req.body;
+		const {photo, user} = req.body;
 		const promissor = {
 			validateExists: async () => {
 				const userExists = await Model('User').exists({
@@ -197,7 +197,7 @@ class AuthController extends AbstractController {
 				return await Model('User').findByIdAndUpdate(user, {
 					photo,
 				}, {new: true});
-			}
+			},
 		}
 
 		return this.validateData(req.body, req.headers)
