@@ -178,6 +178,39 @@ class AuthController extends AbstractController {
 	 * @param {Object} req
 	 * @param {Object} res
 	 * @return {Object}
+	 * @description Método para efetuar atualização da imagem de perfil do usuário
+	 * @memberof AuthController
+	 */
+	updateProfilePhoto(req, res) {
+		const { photo } = req.body;
+		const promissor = {
+			validateExists: async () => {
+				const userExists = await Model('User').exists({
+					_id: user,
+				});
+				if (!userExists) {
+					return Promise.reject('Usuário não encontrado');
+				}
+				return Promise.resolve()
+			},
+			updateProfile: async () => {
+				return await Model('User').findByIdAndUpdate(user, {
+					photo,
+				}, {new: true});
+			}
+		}
+
+		return this.validateData(req.body, req.headers)
+			.then(promissor.validateExists)
+			.then(promissor.updateProfile)
+			.then(this.successHandler)
+			.catch(this.errorHandler);
+	}
+
+	/**
+	 * @param {Object} req
+	 * @param {Object} res
+	 * @return {Object}
 	 * @description Método para efetuar atualização da senha usuário
 	 * @memberof AuthController
 	 */
