@@ -26,7 +26,7 @@ class ReminderController extends AbstractController {
 	 * @memberof ReminderController
 	 */
 	getAllByUser(req, res) {
-		const user = req.params.user;
+		const {user} = req.body;
 		const promissor = {
 			find: async (parameters) => {
 				return await Model('Reminder').paginate({
