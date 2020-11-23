@@ -54,16 +54,15 @@ class CategoryController extends AbstractController {
 	getAllByUserList(req, res) {
 		const {user} = req.body;
 		const promissor = {
-			find: async (parameters) => {
+			find: async () => {
 				return await Model('Category').find({
 					user,
 					deleted: false,
-				}, parameters)
+				})
 			},
 		}
 
 		return this.validateData({...req.body, ...req.query}, req.headers)
-			.then(this.prepareParameters)
 			.then(promissor.find)
 			.then(this.successHandler)
 			.catch(this.errorHandler);
