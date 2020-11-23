@@ -67,8 +67,27 @@ class ReminderController extends AbstractController {
 			},
 		}
 
-		return this.validateData({...req.body, ...req.query}, req.parameters)
+		return this.validateData({...req.body, ...req.query}, req.headers)
 			.then(promissor.getPeriodTypeFilter)
+			.then(promissor.find)
+			.then(this.successHandler)
+			.catch(this.errorHandler);
+	}
+
+	getAllByCategoryList(req, res) {
+		const {user} = req.body;
+		const {category} = req.params;
+		const promissor = {
+			find: async () => {
+				return await Model('Reminder').find({
+					user,
+					category,
+					deleted: false,
+				});
+			}
+		}
+
+		return this.validateData({...req.body, ...req.query}, req.headers)
 			.then(promissor.find)
 			.then(this.successHandler)
 			.catch(this.errorHandler);
