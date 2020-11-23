@@ -43,7 +43,7 @@ export default class AbstractResolver extends HandleRequisition {
 			},
 		}
 
-		return this.validateData(req.body, req.headers, this.exceptionFields)
+		return this.validateData([...req.body, ...req.params], req.headers, this.exceptionFields)
 			.then(this.formatDate)
 			.then(promissor.store)
 			.then(promissor.find)
@@ -74,7 +74,7 @@ export default class AbstractResolver extends HandleRequisition {
 			},
 		}
 
-		return this.validateData(req.body, req.headers, this.exceptionFields)
+		return this.validateData([...req.body, ...req.params], req.headers, this.exceptionFields)
 			.then(promissor.register)
 			.then(this.successHandler)
 			.catch(this.errorHandler)
@@ -99,7 +99,7 @@ export default class AbstractResolver extends HandleRequisition {
 			},
 		}
 
-		return this.validateData(req.body, req.headers, this.exceptionFields)
+		return this.validateData([...req.body, ...req.params], req.headers, this.exceptionFields)
 			.then(this.formatDate)
 			.then(promissor.update)
 			.then(this.successHandler)
@@ -124,7 +124,7 @@ export default class AbstractResolver extends HandleRequisition {
 			},
 		}
 
-		return this.validateData(req.body, req.headers, this.exceptionFields)
+		return this.validateData([...req.body, ...req.params], req.headers, this.exceptionFields)
 			.then(promissor.validate)
 			.then(promissor.update)
 			.then(this.successHandler)
@@ -148,7 +148,7 @@ export default class AbstractResolver extends HandleRequisition {
 			},
 		}
 
-		return this.validateData(req.body, req.headers, this.exceptionFields)
+		return this.validateData([...req.body, ...req.params], req.headers, this.exceptionFields)
 			.then(promissor.find)
 			.then(promissor.delete)
 			.then(this.successHandler)
@@ -177,7 +177,7 @@ export default class AbstractResolver extends HandleRequisition {
 			},
 		}
 
-		return this.validateData(req.body, req.headers, this.exceptionFields)
+		return this.validateData([...req.body, ...req.params], req.headers, this.exceptionFields)
 			.then(promissor.prepareConditions)
 			.then(promissor.find)
 			.then(promissor.delete)
@@ -205,7 +205,7 @@ export default class AbstractResolver extends HandleRequisition {
 			},
 		}
 
-		return this.validateData(req.body, req.headers, this.exceptionFields)
+		return this.validateData([...req.body, ...req.params], req.headers, this.exceptionFields)
 			.then(promissor.find)
 			.then(promissor.restore)
 			.then(this.successHandler)
@@ -228,7 +228,7 @@ export default class AbstractResolver extends HandleRequisition {
 			},
 		}
 
-		return this.validateData(req.body, req.headers, this.exceptionFields)
+		return this.validateData([...req.body, ...req.params], req.headers, this.exceptionFields)
 			.then(promissor.get)
 			.then(this.successHandler)
 			.catch(this.errorHandler)
@@ -250,7 +250,7 @@ export default class AbstractResolver extends HandleRequisition {
 			},
 		}
 
-		return this.validateData(req.body, req.headers, this.exceptionFields)
+		return this.validateData([...req.body, ...req.params], req.headers, this.exceptionFields)
 			.then(promissor.prepareConditions)
 			.then(promissor.getBy)
 			.then(this.successHandler)
@@ -285,7 +285,7 @@ export default class AbstractResolver extends HandleRequisition {
 			},
 		}
 
-		return this.validateData(req.body, req.headers, this.exceptionFields)
+		return this.validateData([...req.body, ...req.params], req.headers, this.exceptionFields)
 			.then(promissor.prepareParameters)
 			.then(promissor.prepareConditions)
 			.then(promissor.getAllBy)
@@ -317,7 +317,7 @@ export default class AbstractResolver extends HandleRequisition {
 			},
 		}
 
-		return this.validateData(req.body, req.headers, this.exceptionFields)
+		return this.validateData([...req.body, ...req.params], req.headers, this.exceptionFields)
 			.then(promissor.prepareParameters)
 			.then(promissor.getAll)
 			.then(this.successHandler)
@@ -349,7 +349,7 @@ export default class AbstractResolver extends HandleRequisition {
 			},
 		}
 
-		return this.validateData(req.body, req.headers, this.exceptionFields)
+		return this.validateData([...req.body, ...req.params], req.headers, this.exceptionFields)
 			.then(promissor.findTotal)
 			.then(promissor.find)
 			.then(this.successHandler)
@@ -369,7 +369,7 @@ export default class AbstractResolver extends HandleRequisition {
 			},
 		}
 
-		return this.validateData(req.body, req.headers, this.exceptionFields)
+		return this.validateData([...req.body, ...req.params], req.headers, this.exceptionFields)
 			.then(promissor.find)
 			.then(this.successHandler)
 			.catch(this.errorHandler)
@@ -406,7 +406,7 @@ export default class AbstractResolver extends HandleRequisition {
 			},
 		}
 
-		return this.validateData(req.body, req.headers, this.exceptionFields)
+		return this.validateData([...req.body, ...req.params], req.headers, this.exceptionFields)
 			.then(promissor.prepareParameters)
 			.then(promissor.prepareConditions)
 			.then(promissor.getAllByCompany)
@@ -430,7 +430,7 @@ export default class AbstractResolver extends HandleRequisition {
 			},
 		}
 
-		return this.validateData(req.body, req.headers, this.exceptionFields)
+		return this.validateData([...req.body, ...req.params], req.headers, this.exceptionFields)
 			.then(promissor.getAllByCompany)
 			.then(this.successHandler)
 			.catch(this.errorHandler)

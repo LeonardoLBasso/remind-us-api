@@ -172,12 +172,12 @@ export default class HandleRequisition {
 	 * @memberof AbstractResolver
 	 */
 	prepareParameters(event) {
-		event = event.queryStringParameters ? event.queryStringParameters : {}
-		return {
-			page: event.page ? event.page : 1,
-			limit: AbstractHelper.limitFormatter(event.limit),
-			sort: event.orderBy ? event.orderBy : '',
-		}
+		const parameters = event.data;
+		return ({
+			page: parameters.page ? parameters.page : 1,
+			limit: AbstractHelper.limitFormatter(parameters.limit),
+			sort: parameters.orderBy ? parameters.orderBy : '',
+		})
 	}
 
 	/**
@@ -194,7 +194,6 @@ export default class HandleRequisition {
 	 * @memberof AbstractResolver
 	 */
 	errorHandler(error) {
-		console.log(error)
 		const handleError = new HandleError(error)
 		if (error instanceof Array) {
 			throw new Error(handleError.handle())
