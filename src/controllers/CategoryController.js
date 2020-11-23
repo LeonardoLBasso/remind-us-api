@@ -37,7 +37,7 @@ class CategoryController extends AbstractController {
 			},
 		}
 
-		return this.validateData(req.body, req.headers)
+		return this.validateData([...req.body, ...req.params], req.headers)
 			.then(this.prepareParameters)
 			.then(promissor.find)
 			.then(this.successHandler)
@@ -55,6 +55,7 @@ class CategoryController extends AbstractController {
 		const {user} = req.body;
 		const promissor = {
 			find: async (parameters) => {
+				console.log(parameters);
 				return await Model('Category').find({
 					user,
 					deleted: false,
@@ -62,7 +63,7 @@ class CategoryController extends AbstractController {
 			},
 		}
 
-		return this.validateData(req.body, req.headers)
+		return this.validateData([...req.body, ...req.params], req.headers)
 			.then(this.prepareParameters)
 			.then(promissor.find)
 			.then(this.successHandler)
