@@ -66,7 +66,7 @@ class AuthController extends AbstractController {
 			},
 		}
 
-		return this.validateData([...req.body, ...req.params], req.headers)
+		return this.validateData({...req.body, ...req.params}, req.headers)
 			.then(promissor.validateExists)
 			.then(promissor.validatePassword)
 			.then(promissor.generateSessionToken)
@@ -129,7 +129,7 @@ class AuthController extends AbstractController {
 			},
 		}
 
-		return this.validateData([...req.body, ...req.params], req.headers)
+		return this.validateData({...req.body, ...req.params}, req.headers)
 			.then(promissor.validateExists)
 			.then(promissor.encryptPassword)
 			.then(promissor.create)
@@ -165,7 +165,7 @@ class AuthController extends AbstractController {
 			},
 		}
 
-		return this.validateData([...req.body, ...req.params], req.headers, [{
+		return this.validateData({...req.body, ...req.params}, req.headers, [{
 			fieldName: 'photo',
 		}])
 			.then(promissor.validateExists)
@@ -200,7 +200,7 @@ class AuthController extends AbstractController {
 			},
 		}
 
-		return this.validateData([...req.body, ...req.params], req.headers)
+		return this.validateData({...req.body, ...req.params}, req.headers)
 			.then(promissor.validateExists)
 			.then(promissor.updateProfile)
 			.then(this.successHandler)
@@ -243,7 +243,7 @@ class AuthController extends AbstractController {
 			},
 		}
 
-		return this.validateData([...req.body, ...req.params], req.headers)
+		return this.validateData({...req.body, ...req.params}, req.headers)
 			.then(promissor.validateExists)
 			.then(promissor.encryptPassword)
 			.then(promissor.updatePassword)

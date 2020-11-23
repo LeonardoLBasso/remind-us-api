@@ -36,7 +36,7 @@ class ReminderController extends AbstractController {
 			},
 		}
 
-		return this.validateData([...req.body, ...req.params], req.headers)
+		return this.validateData({...req.body, ...req.params}, req.headers)
 			.then(this.prepareParameters)
 			.then(promissor.find)
 			.then(this.successHandler)
@@ -67,7 +67,7 @@ class ReminderController extends AbstractController {
 			},
 		}
 
-		return this.validateData([...req.body, ...req.params], req.parameters)
+		return this.validateData({...req.body, ...req.params}, req.parameters)
 			.then(promissor.getPeriodTypeFilter)
 			.then(promissor.find)
 			.then(this.successHandler)
@@ -92,7 +92,7 @@ class ReminderController extends AbstractController {
 			},
 		}
 
-		return this.validateData([...req.body, ...req.params], req.headers)
+		return this.validateData({...req.body, ...req.params}, req.headers)
 			.then(this.prepareParameters)
 			.then(promissor.find)
 			.then(this.successHandler)
