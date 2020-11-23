@@ -15,7 +15,9 @@ class ReminderController extends AbstractController {
      * @memberof ReminderController
      */
 	constructor() {
-		super('Reminder');
+		super('Reminder', [{
+			fieldName: 'description',
+		}]);
 	}
 
 	/**
